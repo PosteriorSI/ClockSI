@@ -110,13 +110,13 @@ void Prepare(int nid, bool* is_abort, TimeStampTz* prepare_time)
     int lindex;
     lindex = GetLocalIndex(index);
 
-	sbuffer=send_buffer[lindex];
-	rbuffer=recv_buffer[lindex];
-	conn=connect_socket[nid][lindex];
+    sbuffer=send_buffer[lindex];
+    rbuffer=recv_buffer[lindex];
+    conn=connect_socket[nid][lindex];
 
     is_local_transaction = isLocalTransaction();
 
-	//send data-insert to node "nid".
+    //send data-insert to node "nid".
     *(sbuffer) = cmd_prepare;
     *(sbuffer+1) = index;
     *(sbuffer+2) = is_local_transaction;
@@ -160,8 +160,8 @@ void CommitDataRecord()
     index=threadinfo->index;
     local_index = GetLocalIndex(index);
 
-	sbuffer=send_buffer[local_index];
-	rbuffer=recv_buffer[local_index];
+    sbuffer=send_buffer[local_index];
+    rbuffer=recv_buffer[local_index];
 
     is_local_transaction = isLocalTransaction();
     start=DataMemStart+DataNumSize;
@@ -181,9 +181,9 @@ void CommitDataRecord()
         ptr=(DataRecord*)(start+i*sizeof(DataRecord));
         nid = ptr->node_id;
 
-    	conn=connect_socket[nid][local_index];
+        conn=connect_socket[nid][local_index];
 
-    	//send data-insert to node "nid".
+        //send data-insert to node "nid".
         *(sbuffer) = cmd_commit;
         *(sbuffer+1) = index;
         *(sbuffer+2) = is_local_transaction;
@@ -222,8 +222,8 @@ void AbortDataRecord()
     index=threadinfo->index;
     local_index = GetLocalIndex(index);
 
-	sbuffer=send_buffer[local_index];
-	rbuffer=recv_buffer[local_index];
+    sbuffer=send_buffer[local_index];
+    rbuffer=recv_buffer[local_index];
 
     start=DataMemStart+DataNumSize;
     num=*(int*)DataMemStart;
@@ -232,9 +232,9 @@ void AbortDataRecord()
         ptr=(DataRecord*)(start+i*sizeof(DataRecord));
         nid = ptr->node_id;
 
-    	conn=connect_socket[nid][local_index];
+        conn=connect_socket[nid][local_index];
 
-    	//send data-insert to node "nid".
+        //send data-insert to node "nid".
         *(sbuffer) = cmd_abort;
         *(sbuffer+1) = index;
 

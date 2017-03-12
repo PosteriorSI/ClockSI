@@ -60,11 +60,11 @@ int Data_Insert(int table_id, TupleId tuple_id, TupleId value, int nid)
     int lindex;
     lindex = GetLocalIndex(index);
 
-	sbuffer=send_buffer[lindex];
-	rbuffer=recv_buffer[lindex];
-	conn=connect_socket[nid][lindex];
+    sbuffer=send_buffer[lindex];
+    rbuffer=recv_buffer[lindex];
+    conn=connect_socket[nid][lindex];
 
-	//send data-insert to node "nid".
+    //send data-insert to node "nid".
     *(sbuffer) = cmd_insert;
     *(sbuffer+1) = table_id;
     *(sbuffer+2) = tuple_id;
@@ -78,7 +78,7 @@ int Data_Insert(int table_id, TupleId tuple_id, TupleId value, int nid)
     int num = 9;
     Send(conn, sbuffer, num);
 
-	// response from "nid".
+    // response from "nid".
     num = 1;
     Receive(conn, rbuffer, num);
 
@@ -126,11 +126,11 @@ int Data_Update(int table_id, TupleId tuple_id, TupleId value, int nid)
     int lindex;
     lindex = GetLocalIndex(index);
 
-	sbuffer=send_buffer[lindex];
-	rbuffer=recv_buffer[lindex];
-	conn=connect_socket[nid][lindex];
+    sbuffer=send_buffer[lindex];
+    rbuffer=recv_buffer[lindex];
+    conn=connect_socket[nid][lindex];
 
-	//send data-insert to node "nid".
+    //send data-insert to node "nid".
     *(sbuffer) = cmd_update;
     *(sbuffer+1) = table_id;
     *(sbuffer+2) = tuple_id;
@@ -145,7 +145,7 @@ int Data_Update(int table_id, TupleId tuple_id, TupleId value, int nid)
     int num = 10;
     Send(conn, sbuffer, num);
 
-	// response from "nid".
+    // response from "nid".
     num = 1;
     Receive(conn, rbuffer, num);
 
@@ -194,11 +194,11 @@ int Data_Delete(int table_id, TupleId tuple_id, int nid)
     int lindex;
     lindex = GetLocalIndex(index);
 
-	sbuffer=send_buffer[lindex];
-	rbuffer=recv_buffer[lindex];
-	conn=connect_socket[nid][lindex];
+    sbuffer=send_buffer[lindex];
+    rbuffer=recv_buffer[lindex];
+    conn=connect_socket[nid][lindex];
 
-	//send data-insert to node "nid".
+    //send data-insert to node "nid".
     *(sbuffer) = cmd_update;
     *(sbuffer+1) = table_id;
     *(sbuffer+2) = tuple_id;
@@ -214,7 +214,7 @@ int Data_Delete(int table_id, TupleId tuple_id, int nid)
     int num = 10;
     Send(conn, sbuffer, num);
 
-	// response from "nid".
+    // response from "nid".
     num = 1;
     Receive(conn, rbuffer, num);
 
@@ -261,11 +261,11 @@ TupleId Data_Read(int table_id, TupleId tuple_id, int nid, int* flag)
     snapshot_time = td->snapshottime;
     tid = td->tid;
 
-	sbuffer=send_buffer[lindex];
-	rbuffer=recv_buffer[lindex];
-	conn=connect_socket[nid][lindex];
+    sbuffer=send_buffer[lindex];
+    rbuffer=recv_buffer[lindex];
+    conn=connect_socket[nid][lindex];
 
-	//send data-insert to node "nid".
+    //send data-insert to node "nid".
     *(sbuffer) = cmd_read;
     *(sbuffer+1) = table_id;
     *(sbuffer+2) = tuple_id;
@@ -279,7 +279,7 @@ TupleId Data_Read(int table_id, TupleId tuple_id, int nid, int* flag)
     int num = 8;
     Send(conn, sbuffer, num);
 
-	// response from "nid".
+    // response from "nid".
     num = 2;
     Receive(conn, rbuffer, num);
 
