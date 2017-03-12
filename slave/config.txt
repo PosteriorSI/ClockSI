@@ -1,0 +1,4 @@
+masterip: 127.0.0.1
+localip: 127.0.0.1
+paramport: 8000
+

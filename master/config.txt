@@ -1,0 +1,15 @@
+masterip: 127.0.0.1
+paramport: 8000
+messageport: 8001
+recordport: 8002
+timeskewmax: 20000
+nodenum: 4
+threadnum: 8
+clientport: 10050
+oneweight: 80
+twoweight: 10
+redolimit: 10
+hotspotpercentage: 25
+hotspotfixedsize: 100
+extensionlimit: 0
+randomreadlimit: 10
