@@ -270,7 +270,18 @@ void RunTerminals(int numTerminals)
     printf("begin report.\n");
     //EndReport(StateInfo, numTerminals);
 
-    EndReportBank(StateInfo, numTerminals);
+    //EndReportBank(StateInfo, numTerminals);
+	switch(benchmarkType)
+	{
+	case TPCC:
+		EndReport(StateInfo, numTerminals);
+		break;
+	case SMALLBANK:
+		EndReportBank(StateInfo, numTerminals);
+		break;
+	default:
+		printf("benchmark not specified\n");
+	}
 }
 
 void runTerminal(int terminalWarehouseID, int terminalDistrictID, pthread_t *tid, pthread_barrier_t *barrier, TransState* StateInfo)

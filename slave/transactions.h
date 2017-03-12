@@ -104,6 +104,14 @@ typedef struct TransState
     int WriteCheck_C;
 }TransState;
 
+typedef enum
+{
+	TPCC,
+	SMALLBANK
+}BENCHMARK;
+
+extern BENCHMARK benchmarkType;
+
 extern int newOrderTransaction(int w_id, int d_id, int c_id, int o_ol_cnt, int o_all_local, int *itemIDs, int *supplierWarehouseIDs, int *orderQuantities, int* node_id, int node_num);
 
 extern int paymentTransaction(int w_id, int c_w_id, int h_amount, int d_id, int c_d_id, int c_id, int* node_id, int node_num);

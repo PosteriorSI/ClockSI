@@ -14,7 +14,7 @@
 //#define TABLENUM  9
 
 //smallbank
-#define TABLENUM 3
+//#define TABLENUM 3
 #define VERSIONMAX 20
 
 #define InvalidTupleId (TupleId)(0)
@@ -46,18 +46,20 @@ typedef Record * THash;
 typedef int VersionId;
 
 /* the lock in the tuple is used to verify the atomic operation of transaction */
-extern pthread_rwlock_t* RecordLock[TABLENUM];
+extern pthread_rwlock_t** RecordLock;
 
 /* just use to verify the atomic operation of a short-time */
-extern pthread_spinlock_t* RecordLatch[TABLENUM];
+extern pthread_spinlock_t** RecordLatch;
 
 /* every table will have a separated HashTable */
-extern Record* TableList[TABLENUM];
+extern Record** TableList;
 
-extern int BucketNum[TABLENUM];
-extern int BucketSize[TABLENUM];
+extern int* BucketNum;
+extern int* BucketSize;
 
-extern int RecordNum[TABLENUM];;
+extern uint64_t* RecordNum;
+
+extern int TABLENUM;
 
 extern bool MVCCVisible(Record * r, VersionId v);
 

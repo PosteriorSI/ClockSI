@@ -23,6 +23,8 @@
 //smallbank extension
 #define EXTENSIONLIMIT extension_limit
 
+BENCHMARK benchmarkType;
+
 int GetMaxOid(int table_id, int w_id, int d_id, int c_id);
 
 int GetMinOid(int table_id, int w_id, int d_id);
