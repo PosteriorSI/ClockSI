@@ -8,6 +8,9 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
+#define TPCC_TABLENUM  9
+#define SMALLBANK_TABLENUM 3
+ 
 /*
  * parameters configurations here.
  */

@@ -2,7 +2,8 @@
 #define SOCKET_H_
 
 #include "type.h"
-#define LINEMAX 20
+#include "transactions.h"
+#define LINEMAX 100
 #define RECEIVE_BUFFSIZE 8
 #define LISTEN_QUEUE 800
 #define NODENUM nodenum

@@ -12,9 +12,6 @@
 #include "transactions.h"
 #include "data.h"
 
-#define TPCC_TABLENUM  9
-#define SMALLBANK_TABLENUM 3
-
 // number of warehouses
 int configWhseCount;
 
@@ -69,8 +66,9 @@ int MAX_BALANCE;
 
 void InitConfig(void)
 {
-	benchmarkType=TPCC;
-	TABLENUM=TPCC_TABLENUM;
+    TABLENUM=TPCC_TABLENUM;
+
+    benchmarkType=TPCC;
     //transPerTerminal
     transactionsPerTerminal=20000;
 

@@ -1,12 +1,18 @@
 #ifndef MASTER_H_
 #define MASTER_H_
 
-#define LINEMAX 20
+#define LINEMAX 100
 
 #define LISTEN_QUEUE 500
 
 #define NODENUM nodenum
 #define THREADNUM threadnum
+
+typedef enum BENCHMARK
+{
+    TPCC,
+    SMALLBANK
+} BENCHMARK;
 
 extern void InitMessage(void);
 extern void InitParam(void);

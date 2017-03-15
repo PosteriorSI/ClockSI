@@ -106,8 +106,8 @@ typedef struct TransState
 
 typedef enum
 {
-	TPCC,
-	SMALLBANK
+    TPCC,
+    SMALLBANK
 }BENCHMARK;
 
 extern BENCHMARK benchmarkType;

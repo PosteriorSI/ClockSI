@@ -9,6 +9,7 @@
 #include "socket.h"
 #include "data.h"
 #include "thread_main.h"
+#include "config.h"
 
 void* Respond(void *sockp);
 
@@ -71,7 +72,7 @@ int ReadConfig(char * find_string, char * result)
     int i;
     int j;
     int k;
-    char buffer[30];
+    char buffer[50];
     char * p;
 
     for (i = 0; i < LINEMAX; i++)
@@ -360,60 +361,94 @@ void InitNetworkParam(void)
 
 void GetParam(void)
 {
-       int i;
-       int param_send_buffer[1];
-       int param_recv_buffer[14+NODENUMMAX];
+    int i;
+    int param_send_buffer[1];
+    int param_recv_buffer[32+NODENUMMAX];
 
-       // register local IP to master node && get by other nodes in the system 
-       in_addr_t help = inet_addr(local_ip);
+    // register local IP to master node && get by other nodes in the system 
+    in_addr_t help = inet_addr(local_ip);
 
-       if (help == INADDR_NONE)
-       {
-           printf("inet addr error\n");
-           exit(-1);
-       }
+    if (help == INADDR_NONE)
+    {
+        printf("inet addr error\n");
+        exit(-1);
+    }
 
-       param_send_buffer[0] = (uint32_t)help;
+    param_send_buffer[0] = (uint32_t)help;
 
-       if (send(param_socket, param_send_buffer, sizeof(param_send_buffer), 0) == -1)
-           printf("get param send error\n");
-       if (recv(param_socket, param_recv_buffer, sizeof(param_recv_buffer), 0) == -1)
-           printf("get param recv error\n");
+    if (send(param_socket, param_send_buffer, sizeof(param_send_buffer), 0) == -1)
+        printf("get param send error\n");
+    if (recv(param_socket, param_recv_buffer, sizeof(param_recv_buffer), 0) == -1)
+        printf("get param recv error\n");
 
-       nodenum = param_recv_buffer[0];
-       threadnum = param_recv_buffer[1];
-       port_base = param_recv_buffer[2];
-       message_port = param_recv_buffer[3];
-       record_port = param_recv_buffer[4];
-       nodeid = param_recv_buffer[5];
-       time_skew_max = param_recv_buffer[6];
+    nodenum = param_recv_buffer[0];
+    threadnum = param_recv_buffer[1];
+    port_base = param_recv_buffer[2];
+    message_port = param_recv_buffer[3];
+    record_port = param_recv_buffer[4];
+    nodeid = param_recv_buffer[5];
+    time_skew_max = param_recv_buffer[6];
 
-       oneNodeWeight = param_recv_buffer[7];
-       twoNodeWeight = param_recv_buffer[8];
-       redo_limit = param_recv_buffer[9];
+    oneNodeWeight = param_recv_buffer[7];
+    twoNodeWeight = param_recv_buffer[8];
+    redo_limit = param_recv_buffer[9];
        
-       // hotspot control
-       HOTSPOT_PERCENTAGE = param_recv_buffer[10];
-       HOTSPOT_FIXED_SIZE = param_recv_buffer[11];
+    // hotspot control
+    HOTSPOT_PERCENTAGE = param_recv_buffer[10];
+    HOTSPOT_FIXED_SIZE = param_recv_buffer[11];
 
-       // duration control
-       extension_limit = param_recv_buffer[12];
+    // duration control
+    extension_limit = param_recv_buffer[12];
        
-       // random read control
-       random_read_limit = param_recv_buffer[13];
+    // random read control
+    random_read_limit = param_recv_buffer[13];
 
-       for (i = 0; i < nodenum; i++)
-       {
-          struct in_addr help; 
-          help.s_addr = param_recv_buffer[14+i];
-          char * result = inet_ntoa(help);
-          int k;
-          for (k = 0; result[k] != '\0'; k++)
-          {
-              node_ip[i][k] = result[k];
-          }
-          node_ip[i][k] = '\0';
-       }
+    benchmarkType = (BENCHMARK)param_recv_buffer[14];
+
+    if (benchmarkType == TPCC)
+    {
+        TABLENUM = TPCC_TABLENUM;
+    }
+    else if (benchmarkType == SMALLBANK)
+    {
+        TABLENUM = SMALLBANK_TABLENUM;
+    }
+    else
+    {
+        printf("read benchmark type error!\n");
+        exit(-1);
+    }
+    
+    transactionsPerTerminal = param_recv_buffer[15];
+    paymentWeightValue = param_recv_buffer[16];
+    orderStatusWeightValue = param_recv_buffer[17];
+    deliveryWeightValue = param_recv_buffer[18];
+    stockLevelWeightValue = param_recv_buffer[19];
+    limPerMin_Terminal = param_recv_buffer[20];
+    configWhseCount = param_recv_buffer[21];
+    configCommitCount = param_recv_buffer[22];
+    OrderMaxNum = param_recv_buffer[23];
+    MaxDataLockNum = param_recv_buffer[24];
+    scaleFactor = param_recv_buffer[25] * 0.01;
+    FREQUENCY_AMALGAMATE = param_recv_buffer[26];
+    FREQUENCY_BALANCE = param_recv_buffer[27];
+    FREQUENCY_DEPOSIT_CHECKING = param_recv_buffer[28];
+    FREQUENCY_SEND_PAYMENT = param_recv_buffer[29];
+    FREQUENCY_TRANSACT_SAVINGS = param_recv_buffer[30];
+    FREQUENCY_WRITE_CHECK = param_recv_buffer[31];
+
+    for (i = 0; i < nodenum; i++)
+    {
+        struct in_addr help; 
+        help.s_addr = param_recv_buffer[32+i];
+        char * result = inet_ntoa(help);
+        int k;
+        for (k = 0; result[k] != '\0'; k++)
+        {
+            node_ip[i][k] = result[k];
+        }
+        node_ip[i][k] = '\0';
+    }
 }
 
 void WaitDataReady(void)
